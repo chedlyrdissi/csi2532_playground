@@ -1,18 +1,39 @@
-CREATE TABLE athletes (
-  id int,
-  identifier varchar(50),
-  created timestamp,
-  modified timestamp,
-  name varchar(50),
-  dob date,
-  gender varchar(6),
-  PRIMARY KEY (id)
+CREATE TABLE artists (
+ name VARCHAR(20),
+ birthplace VARCHAR(20),
+ style VARCHAR(20),
+ dateofbirth DATE,
+ country varchar(100),
+ PRIMARY KEY (name)
 );
 
-CREATE TABLE schema_migrations (
- 	migration varchar(255),
- 	migrated_at time,
- 	PRIMARY KEY (migration)
+CREATE TABLE customers (
+ id INTEGER,
+ name VARCHAR(20),
+ address VARCHAR(20),
+ amount numeric(8,2),
+ rating integer CHECK (rating between 1 and 10),
+ PRIMARY KEY (id)
+);
+
+CREATE TABLE artworks (
+ title VARCHAR(20),
+ year INTEGER,
+ type VARCHAR(20),
+ price numeric(8,2),
+ artist_name VARCHAR(20),
+ PRIMARY KEY (title),
+ FOREIGN KEY(artist_name) REFERENCES artists(name)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE
+);
+
+CREATE TABLE likeartists (
+ customer_id INTEGER,
+ artist_name VARCHAR(20),
+ PRIMARY KEY(artist_name, customer_id),
+ FOREIGN KEY (artist_name) REFERENCES artists(name),
+ FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 
